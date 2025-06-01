@@ -35,3 +35,12 @@ bool CheckInput::StrIsNumb(string Str) {
     }
     return Flag;
 }
+
+bool CheckInput::StrIsBin(string Str) {
+    for (char ch : Str)
+        if (ch != '1' && ch != '0') {
+            cout << "Двоичное число может содержать только '1' или '0'!" << endl;
+            return true;
+        }
+    return false;
+}

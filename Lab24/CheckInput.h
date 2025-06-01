@@ -14,5 +14,7 @@ public:
     bool isIntRange(int Val, int Min, int Max);
 
     bool StrIsNumb(string Str);
+
+    bool StrIsBin(string Str);
 };
 
