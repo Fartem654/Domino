@@ -16,5 +16,8 @@ public:
     bool StrIsNumb(string Str);
 
     bool StrIsBin(string Str);
+
+    bool isDomino(string Str);
+
 };
 

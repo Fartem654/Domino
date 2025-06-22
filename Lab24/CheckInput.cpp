@@ -1,9 +1,11 @@
 #include "CheckInput.h"
 
+//CheckInput::
+
 bool CheckInput::isInt() {
     bool Flag = false;
     if (cin.fail()) {
-        cout << "Введен недопустимый символ!" << endl;
+        cout << "\033[31mВведен недопустимый символ!\033[0m" << endl;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         Flag = true;
@@ -14,7 +16,7 @@ bool CheckInput::isInt() {
 bool CheckInput::isIntRange(int Val, int Min, int Max) {
     bool Flag = false;
     if (cin.fail()) {
-        cout << "Введен недопустимый символ!" << endl;
+        cout << "\033[31mВведен недопустимый символ!\033[0m" << endl;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         Flag = true;
@@ -27,20 +29,22 @@ bool CheckInput::isIntRange(int Val, int Min, int Max) {
     return Flag;
 }
 
-bool CheckInput::StrIsNumb(string Str) {
-    bool Flag = false;
-
-    for (char ch : Str) {
-        if ((int)ch < 48 || (int)ch) continue;
-    }
-    return Flag;
-}
-
 bool CheckInput::StrIsBin(string Str) {
     for (char ch : Str)
         if (ch != '1' && ch != '0') {
-            cout << "Двоичное число может содержать только '1' или '0'!" << endl;
+            cout << "\033[31mДвоичное число может содержать только '1' или '0'!\033[0m" << endl;
             return true;
         }
     return false;
+}
+
+bool CheckInput::isDomino(string Str) {
+    bool Flag = false;
+    if (Str.size() == 2 and (Str[0] >= '0' and Str[0] <= '6') and (Str[1] >= '0' and Str[1] <= '6'))
+        Flag = true;
+    else {
+        cout << "\033[31mДоминошка должна состоять только из двух цифр от 0 до 6!\033[0m" << endl;
+
+    }
+    return Flag;
 }
