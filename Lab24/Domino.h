@@ -10,11 +10,11 @@ class Domino {
 private:
 	char First;
 	char Second;
-	bool IsLoop = First == Second;
+	bool IsLoop;
 	 
 public:
 
-	Domino(char Fir, char Sec) : First(Fir), Second(Sec) {}
+	Domino(char Fir, char Sec) : First(Fir), Second(Sec), IsLoop(Fir == Sec) {}
 	
 	char getFirst_() const { return First; }
 	char getSecond_() const { return Second; }
@@ -60,16 +60,15 @@ private:
 	bool isNoMoreThanTwoOdd_(const vector<int>& NumbDigits);
 
 	// Проверка на связность цифр доминошек (вершин графа)
-	bool isConnect_(const vector<Domino*> Dominoes, const vector<int>& NumbDigits);
+	bool isConnect_(const vector<Domino*>& Dominoes, const vector<int>& NumbDigits);
 
 	// Нахождение цифры с нечетной степенью
 	char FindStartDomino_(const vector<Domino*> Dominoes, const vector<int>& NumbDigits);
 
-	/// Меняет вершины двух домино, что бы значения на сопряженных концах были одинаковыми 
+	/// Меняет вершины двух домино, чтобы значения на сопряженных концах были одинаковыми 
 	void ReplaceVertexDominoes_(DominoesRow* TempHead, DominoesRow* Temp);
 
-	// Удадяет все значения списка домино
-	void DeleteRow_(DominoesRow* Object);
+	
 
 	typedef DominoesRow* PDom;
 	
@@ -82,6 +81,9 @@ public:
 
 	void setPrev(DominoesRow* NewPrew) { Prev = NewPrew; }
 	void setNext(DominoesRow* NewNext) { Next = NewNext; }
+
+	// Удадяет все значения списка домино
+	void DeleteRow_(DominoesRow* Object);
 
 	// Формирование списка удовлетворяющего условию домино, если это возможно
 	DominoesRow* FormDominoesRow(vector<Domino*> Dominoes, const vector<int>& NumbDigits, const int& NumbLoop, DominoesRow* Head);

@@ -1,11 +1,5 @@
 #include "Domino.h"
 
-void ShowDomVec(vector<Domino*> DomVec) {
-	for (int i = 0; i < DomVec.size(); i++) {
-		DomVec[i]->PrintDomino_();
-	}
-}
-
 // PRIVATE
 
 void DominoesRow::QuickSortDominoFirst_(vector <Domino*>& Dominoes, int LeftBorder, int RightBorder) {
@@ -61,19 +55,19 @@ void DominoesRow::QuickSortDominoSecond_(vector <Domino*>& Dominoes, int LeftBor
 void DominoesRow::SearchInterval_(vector <Domino*>& Dominoes, int StartBorder, const vector <int>& NumbDigits) {
 	if (Dominoes.size() > 1) {
 		int LeftPointer = StartBorder, RightPointer = StartBorder, j;
-		bool Flag;
+		bool ChangeFirst;
 		for (int i = 0; i < 7; i++)
 			if (Dominoes[LeftPointer]->getFirst_() - '0' == i) {
 				j = LeftPointer;
-				Flag = true;
-				while(j < Dominoes.size() - 1 && Flag){
+				ChangeFirst = false;
+				while(j < Dominoes.size() - 1 && !ChangeFirst){
 					if (Dominoes[j + 1]->getFirst_() - '0' == i)
 						RightPointer++;
 					else if (Dominoes[j + 1]->getFirst_() - '0' != i) {
 						if (LeftPointer != RightPointer) QuickSortDominoSecond_(Dominoes, LeftPointer, RightPointer);
 						RightPointer += 1;
 						LeftPointer = RightPointer;
-						Flag = false;
+						ChangeFirst = true;
 					}
 					j++;
 				}
@@ -102,8 +96,6 @@ void DominoesRow::AheadLoop_(vector <Domino*>& Dominoes, const int& NumbLoop) {
 				RightPointer--;
 			}
 		}
-		QuickSortDominoFirst_(Dominoes, 0, LeftPointer - 1);
-		QuickSortDominoFirst_(Dominoes, LeftPointer, Dominoes.size() - 1);
 	}
 }
 
@@ -114,7 +106,6 @@ void DominoesRow::SortDominoVector_(vector <Domino*>& Dominoes, const int& NumbL
 		AheadLoop_(Dominoes, NumbLoop);
 		SearchInterval_(Dominoes, NumbLoop, NumbDigits);
 	}
-	ShowDomVec(Dominoes); cout << endl;
 }
 
 bool DominoesRow::isNoMoreThanTwoOdd_(const vector<int>& NumbDigits) {
@@ -130,7 +121,7 @@ bool DominoesRow::isNoMoreThanTwoOdd_(const vector<int>& NumbDigits) {
 	return Flag;
 }
 
-bool  DominoesRow::isConnect_(const vector<Domino*> Dominoes, const vector<int>& NumbDigits) {
+bool  DominoesRow::isConnect_(const vector<Domino*>& Dominoes, const vector<int>& NumbDigits) {
 	bool Flag = true;
 
 	vector<bool> Visited(7, false);
@@ -207,36 +198,39 @@ void DominoesRow::ReplaceVertexDominoes_(DominoesRow* TempHead, DominoesRow* Tem
 }
 
 void DominoesRow::DeleteRow_(DominoesRow* Object) {
-	if (Object) {
-		DeleteRow_(Object->Next);
-		delete Object;
+	DominoesRow* Temp;
+	while (Object) {
+		Temp = Object;
+		Object = Object->Next;
+		delete Temp;
 	}
 }
 
 // PUBLIC
 
-DominoesRow* DominoesRow::FormDominoesRow(vector<Domino*> Dominoes, const vector<int>& NumbDigits, const int& NumbLoop, DominoesRow* Head) {
+DominoesRow* DominoesRow::FormDominoesRow(vector<Domino*> DominoesDef, const vector<int>& NumbDigits, const int& NumbLoop, DominoesRow* Head) {
+	vector<Domino*> Dominoes = DominoesDef, TempDef = DominoesDef;
+	AheadLoop_(TempDef, NumbLoop);
 	char StartDom = Dominoes[0]->getFirst_();
+	int TryCounter = DominoesDef.size() * (-0.25);
 	if(Dominoes.size() == 1){
 		Head = new DominoesRow(Dominoes[0]);
 	}
 	else if (isNoMoreThanTwoOdd_(NumbDigits) && isConnect_(Dominoes, NumbDigits)) {
 		vector<bool> UsedDef(Dominoes.size(), false), Used = UsedDef;
+		bool AddDomino;
 
 		char CurDomino = FindStartDomino_(Dominoes, NumbDigits);
 		int UsedDominoes = 0;
 		int MovementMultiplier = 0; 
 
-		bool Flag;
-
 		DominoesRow* TempHead = Head;
 		Domino* TempDomino;
 
-		SortDominoVector_(Dominoes, NumbLoop, NumbDigits);
-
 		while (UsedDominoes < Dominoes.size()) {
 			int i = 0;
-			while (i < Dominoes.size()) {
+			AddDomino = false;
+			while (i < Dominoes.size() && !AddDomino) {
 				if (!Used[i]) {
 					TempDomino = Dominoes[i];
 					if (TempDomino->getFirst_() == CurDomino || TempDomino->getSecond_() == CurDomino) {
@@ -264,32 +258,50 @@ DominoesRow* DominoesRow::FormDominoesRow(vector<Domino*> Dominoes, const vector
 						else
 							CurDomino = TempDomino->getFirst_();
 
-						break;
+						AddDomino = true;
 					}
 				}
 				i++;
 			}
 
-			if (i == Dominoes.size() && MovementMultiplier + 1 < Dominoes.size()) {
-				DeleteRow_(Head);
-				Head = nullptr;
-				UsedDominoes = 0;
+			if (i = Dominoes.size() && !AddDomino) {
+				if (TryCounter < 0) {
+					DeleteRow_(Head);
+					Head = nullptr;
+					UsedDominoes = 0;
 
-				Domino* TempEnd = Dominoes[Dominoes.size() - 1 - MovementMultiplier];
-				Dominoes[Dominoes.size() - 1 - MovementMultiplier] = Dominoes[Dominoes.size() - 2 - MovementMultiplier];
-				Dominoes[Dominoes.size() - 2 - MovementMultiplier] = TempEnd;
+					SortDominoVector_(Dominoes, NumbLoop, NumbDigits);
 
-				CurDomino = FindStartDomino_(Dominoes, NumbDigits);
-				MovementMultiplier++;
-				Used = UsedDef;
+					CurDomino = FindStartDomino_(Dominoes, NumbDigits);
+					Used = UsedDef;
+					TryCounter++;
+				}
+
+				else if (MovementMultiplier + 1 + TryCounter < Dominoes.size()) {
+					DeleteRow_(Head);
+					Head = nullptr;
+					UsedDominoes = 0;
+
+					Domino* TempEnd = Dominoes[Dominoes.size() - 1 - MovementMultiplier];
+					Dominoes[Dominoes.size() - 1 - MovementMultiplier] = Dominoes[Dominoes.size() - 2 - TryCounter - MovementMultiplier];
+					Dominoes[Dominoes.size() - 2 - TryCounter - MovementMultiplier] = TempEnd;
+
+					CurDomino = FindStartDomino_(Dominoes, NumbDigits);
+					MovementMultiplier++;
+					Used = UsedDef;
+				}
+				else if (MovementMultiplier + 1 + TryCounter == Dominoes.size()) {
+					MovementMultiplier = 0;
+					TryCounter++;
+				}
+				else
+				{
+					TryCounter = DominoesDef.size() * (-0.25);
+				}
 			}
-			if (MovementMultiplier + 1 == Dominoes.size())
-				MovementMultiplier = 0;
-
 		}
 	}
 	else {
-		cout << "Неверные входные данные." << endl;
 		Head = nullptr;
 	}
 
