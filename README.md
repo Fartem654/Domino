@@ -49,8 +49,14 @@
 <h2 id="struct">Структура проекта</h2>
 
 <pre><code>
-├── Domino.cpp
-├── Domino.h
+Lab24
+ ├─ CheckInput.cpp
+ ├─ CheckInput.h
+ ├─ UserPanel.cpp
+ ├─ UserPanel.h
+ ├─ Domino.cpp
+ ├─ Domino.h
+ ├─ Project2.cpp
 
 </code></pre>
 
