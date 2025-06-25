@@ -56,7 +56,7 @@ Lab24
  ├─ UserPanel.h
  ├─ Domino.cpp
  ├─ Domino.h
- ├─ Project2.cpp
+ └─ Project2.cpp
 
 </code></pre>
 
@@ -70,7 +70,7 @@ Lab24
 
 <h3>Нельзя выложить</h3>
 
-<p><strong>Входные данные:</strong> <code>43 61 25 52 42 42 02 02 31 43</code></p>
+<p><strong>Входные данные:</strong> <code>36 40 01 30 24 53 00 35 52 13</code></p>
 
 <p><strong>Результат:</strong> <code>Некорректные входные данные.</code></p>
 
