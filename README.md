@@ -49,14 +49,14 @@
 <h2 id="struct">Структура проекта</h2>
 
 <pre><code>
-Lab24
- ├─ CheckInput.cpp
- ├─ CheckInput.h
- ├─ UserPanel.cpp
- ├─ UserPanel.h
- ├─ Domino.cpp
- ├─ Domino.h
- └─ Project2.cpp
+<a href="https://github.com/Fartem654/Domino/tree/master/Lab24">Lab24</a>
+ ├─ <a href="https://github.com/Fartem654/Domino/blob/master/Lab24/CheckInput.cpp">CheckInput.cpp</a>
+ ├─ <a href="https://github.com/Fartem654/Domino/blob/master/Lab24/CheckInput.h">CheckInput.h</a> 
+ ├─ <a href="https://github.com/Fartem654/Domino/blob/master/Lab24/Domino.cpp">Domino.cpp</a>
+ ├─ <a href="https://github.com/Fartem654/Domino/blob/master/Lab24/Domino.h">Domino.h</a>
+ ├─ <a href="https://github.com/Fartem654/Domino/blob/master/Lab24/UserPanel.cpp">UserPanel.cpp</a>
+ ├─ <a href="https://github.com/Fartem654/Domino/blob/master/Lab24/UserPanel.h">UserPanel.h</a>
+ └─ <a href="https://github.com/Fartem654/Domino/blob/master/Lab24/Project2.cpp">Project2.cpp</a>
 
 </code></pre>
 
