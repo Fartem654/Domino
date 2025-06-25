@@ -197,7 +197,7 @@ void DominoesRow::ReplaceVertexDominoes_(DominoesRow* TempHead, DominoesRow* Tem
 	}
 }
 
-void DominoesRow::DeleteRow_(DominoesRow* Object) {
+void DominoesRow::DeleteRow(DominoesRow* Object) {
 	DominoesRow* Temp;
 	while (Object) {
 		Temp = Object;
@@ -209,8 +209,7 @@ void DominoesRow::DeleteRow_(DominoesRow* Object) {
 // PUBLIC
 
 DominoesRow* DominoesRow::FormDominoesRow(vector<Domino*> DominoesDef, const vector<int>& NumbDigits, const int& NumbLoop, DominoesRow* Head) {
-	vector<Domino*> Dominoes = DominoesDef, TempDef = DominoesDef;
-	AheadLoop_(TempDef, NumbLoop);
+	vector<Domino*> Dominoes = DominoesDef;
 	char StartDom = Dominoes[0]->getFirst_();
 	int TryCounter = DominoesDef.size() * (-0.25);
 	if(Dominoes.size() == 1){
@@ -264,9 +263,9 @@ DominoesRow* DominoesRow::FormDominoesRow(vector<Domino*> DominoesDef, const vec
 				i++;
 			}
 
-			if (i = Dominoes.size() && !AddDomino) {
+			if (i == Dominoes.size() && !AddDomino) {
 				if (TryCounter < 0) {
-					DeleteRow_(Head);
+					DeleteRow(Head);
 					Head = nullptr;
 					UsedDominoes = 0;
 
@@ -278,7 +277,7 @@ DominoesRow* DominoesRow::FormDominoesRow(vector<Domino*> DominoesDef, const vec
 				}
 
 				else if (MovementMultiplier + 1 + TryCounter < Dominoes.size()) {
-					DeleteRow_(Head);
+					DeleteRow(Head);
 					Head = nullptr;
 					UsedDominoes = 0;
 
