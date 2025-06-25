@@ -4,7 +4,7 @@
 
 // PRIVATE
 
-void  ContainerFilling::CountNumb(vector<int>& NumbDigit, int& NumbLoop, string Str) {
+void  ContainerFilling::CountNumb_(vector<int>& NumbDigit, int& NumbLoop, string Str) {
 	string FirstSymbol = "";
 	string SecondSymbol = "";
 
@@ -17,7 +17,7 @@ void  ContainerFilling::CountNumb(vector<int>& NumbDigit, int& NumbLoop, string 
 	NumbDigit[stoi(SecondSymbol)]++;
 }
 
-void  ContainerFilling::ReadString(string Str, vector<string>& DominoVectorStr) {
+void  ContainerFilling::ReadString_(string Str, vector<string>& DominoVectorStr) {
 	string Formval = "";
 	for (char ch : Str) {
 		if (ch != ' ') {
@@ -34,7 +34,7 @@ void  ContainerFilling::ReadString(string Str, vector<string>& DominoVectorStr) 
 
 // PUBLIC
 
-vector<Domino*> ContainerFilling::ConsInput_(vector<int>& NumbDigits, int Len, int& NumbLoop, bool& AlreadyRule) {
+vector<Domino*> ContainerFilling::ConsInput(vector<int>& NumbDigits, int Len, int& NumbLoop, bool& AlreadyRule) {
 	system("cls");
 	string DominVal;
 	vector<Domino*> DominoVector;
@@ -44,7 +44,7 @@ vector<Domino*> ContainerFilling::ConsInput_(vector<int>& NumbDigits, int Len, i
 			cout << "Введите " << i << "-ую из " << Len << "-и доминошку: ";
 			cin >> DominVal;
 		} while (!CheckInput().isDomino(DominVal));
-		CountNumb(NumbDigits, NumbLoop, DominVal);
+		CountNumb_(NumbDigits, NumbLoop, DominVal);
 
 		if (AlreadyRule && DominoVector.size() > 0) {
 			if (DominVal[0] != DominoVector.back()->getSecond_()) {
@@ -59,8 +59,8 @@ vector<Domino*> ContainerFilling::ConsInput_(vector<int>& NumbDigits, int Len, i
 	return DominoVector;
 }
 
-vector<Domino*> ContainerFilling::RandInput_(vector<int>& NumbDigits, int Len, int& NumbLoop, bool& AlreadyRule) {
-	system("cls");
+vector<Domino*> ContainerFilling::RandInput(vector<int>& NumbDigits, int Len, int& NumbLoop, bool& AlreadyRule) {
+	//system("cls");
 	cout << "\033[33mГенерируются доминошки вида XX, 0<=X<=6.\033[0m" << endl;
 	srand(time(0));
 
@@ -69,7 +69,7 @@ vector<Domino*> ContainerFilling::RandInput_(vector<int>& NumbDigits, int Len, i
 
 	for (int i = 1; i <= Len; i++) {
 		DominVal = to_string(rand() % 7) + to_string(rand() % 7);
-		CountNumb(NumbDigits, NumbLoop, DominVal);
+		CountNumb_(NumbDigits, NumbLoop, DominVal);
 
 		if (AlreadyRule && DominoVector.size() > 0) {
 			if (DominVal[0] != DominoVector.back()->getSecond_()) {
@@ -83,7 +83,7 @@ vector<Domino*> ContainerFilling::RandInput_(vector<int>& NumbDigits, int Len, i
 	return DominoVector;
 }
 
-vector<Domino*> ContainerFilling::FileInput_(int Len, vector<int>& NumbDigits, int& NumbLoop, bool& AlreadyRule, bool& ErrorFile, string FileName) {
+vector<Domino*> ContainerFilling::FileInput(int Len, vector<int>& NumbDigits, int& NumbLoop, bool& AlreadyRule, bool& ErrorFile, string FileName) {
 	system("cls");
 	cout << "\033[33mВсе элементы НЕ в формате домино будут пропущены! ( XX, 0<=X<=6)\033[0m" << endl;
 
@@ -113,13 +113,13 @@ vector<Domino*> ContainerFilling::FileInput_(int Len, vector<int>& NumbDigits, i
 		int i = 0;
 
 		getline(f, Str);
-		ReadString(Str, DominoVectorStr);
+		ReadString_(Str, DominoVectorStr);
 		while (i < DominoVectorStr.size() && !Size) {
 
 			TempDom = DominoVectorStr[i];
 			if (CheckInput().isDominoFile(TempDom)) {
 				DominVal = TempDom.size() == 2 ? TempDom : "0" + TempDom;
-				CountNumb(NumbDigits, NumbLoop, DominVal);
+				CountNumb_(NumbDigits, NumbLoop, DominVal);
 
 				if (AlreadyRule && DominoVector.size() > 0) {
 					if (DominVal[0] != DominoVector.back()->getSecond_()) {
@@ -150,14 +150,13 @@ vector<Domino*> ContainerFilling::FileInput_(int Len, vector<int>& NumbDigits, i
 		}
 	}
 	ErrorFile = Result;
-	system("cls");
 	return DominoVector;
 }
 // UserPanel
 
 // PRIVATE
 
-void UserPanel::ShowDomVec(vector<Domino*> DomVec) {
+void UserPanel::ShowDomVec_(vector<Domino*> DomVec) {
 	for (int i = 0; i < DomVec.size(); i++) {
 		DomVec[i]->PrintDomino_();
 	}
@@ -165,7 +164,7 @@ void UserPanel::ShowDomVec(vector<Domino*> DomVec) {
 
 // PUBLIC
 
-vector<Domino*> UserPanel::InputDomino_(int Len, vector<int>& NumbDigits, int& NumbLoop, bool& AlreadyRule, string FileName) {
+vector<Domino*> UserPanel::InputDomino(int Len, vector<int>& NumbDigits, int& NumbLoop, bool& AlreadyRule, string FileName) {
 	int Choise;
 	bool ErrorFile = false;
 	vector<Domino*> DominoVector;
@@ -191,13 +190,13 @@ vector<Domino*> UserPanel::InputDomino_(int Len, vector<int>& NumbDigits, int& N
 		switch (Choise)
 		{
 		case 1:
-			DominoVector = RandInput_(NumbDigits, Len, NumbLoop, AlreadyRule);
+			DominoVector = RandInput(NumbDigits, Len, NumbLoop, AlreadyRule);
 			break;
 		case 2:
-			DominoVector = ConsInput_(NumbDigits, Len, NumbLoop, AlreadyRule);
+			DominoVector = ConsInput(NumbDigits, Len, NumbLoop, AlreadyRule);
 			break;
 		case 3:
-			DominoVector = FileInput_(Len, NumbDigits, NumbLoop, AlreadyRule, ErrorFile, FileName);
+			DominoVector = FileInput(Len, NumbDigits, NumbLoop, AlreadyRule, ErrorFile, FileName);
 			break;
 		default:
 			cout << "Завершение программы." << endl;
@@ -221,11 +220,11 @@ void UserPanel::Programma(string FileName) {
 
 	system("cls");
 
-	DominoVector = InputDomino_(Len, NumbDigits, NumbLoop, AlreadyRule, FileName);
+	DominoVector = InputDomino(Len, NumbDigits, NumbLoop, AlreadyRule, FileName);
 
 	if (DominoVector.size() > 0) {
 		cout << "Исходный список доминошек:" << endl;
-		ShowDomVec(DominoVector); cout << endl;
+		ShowDomVec_(DominoVector); cout << endl;
 
 		if (AlreadyRule) {
 			cout << "\033[32mВходные домино уже разложены по правилу.\033[0m" << endl;
@@ -244,7 +243,7 @@ void UserPanel::Programma(string FileName) {
 					Temp = Temp->getNext();
 				}
 				cout << endl;
-				Head->DeleteRow_(Head);
+				Head->DeleteRow(Head);
 			}
 			else {
 				cout << "\033[31mНекорректные входные данные.\033[0m" << endl;
@@ -257,7 +256,7 @@ void UserPanel::Programma(string FileName) {
 	}
 }
 
-void UserPanel::UserPanelLoop_(string FileName) {
+void UserPanel::UserPanelLoop(string FileName) {
 	bool MenuLoop;
 	int Choise;
 	do {
