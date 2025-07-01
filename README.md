@@ -8,6 +8,7 @@
     <li><a href="#features">Возможности программы</a></li>
     <li><a href="#checks">Проверки</a></li>
     <li><a href="#struct">Структура проекта</a></li>
+    <li><a href="#run">Запуск программы</a></li>
     <li><a href="#screenshots">Скриншоты</a></li>
     <li><a href="#examples">Примеры работы</a></li>
     <li><a href="#performed">Выполнил</a></li>
@@ -59,6 +60,9 @@
  └─ <a href="https://github.com/Fartem654/Domino/blob/master/Lab24/Project2.cpp">Project2.cpp</a>
 
 </code></pre>
+
+<h2 id="run">Структура проекта</h2>
+  <p>Скачайте архив проекта, распакуйте его. Далее перейдите "x64" -> "Release" -> "Dominoes.exe"</p>
 
 <h2 id="examples">Примеры работы</h2>
 
